@@ -1,0 +1,9 @@
+{
+    "name": "ToolRefund",
+    "version_number": "1.0.0",
+    "description": "Restores spent tools when you die.",
+    "website_url": "https://github.com/Esper89/Silksong-ToolRefund",
+    "dependencies": [
+        "BepInEx-BepInExPack_Silksong-5.4.2303"
+    ]
+}

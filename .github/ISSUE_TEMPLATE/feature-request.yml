@@ -1,0 +1,41 @@
+name: "Feature Request"
+description: "File a feature request for something you think should be added to the mod."
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for filling out a feature request!"
+  - type: textarea
+    id: expectation-description
+    attributes:
+      label: "What would the feature be?"
+      description: "Describe the feature as best you can."
+      placeholder: "A clear description of the feature's behavior."
+    validations:
+      required: true
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: "What problems could this feature solve?"
+      description: "Describe problems solved by this feature as best you can."
+      placeholder: "A clear description of any problems this feature could solve."
+    validations:
+      required: false
+  - type: dropdown
+    id: mod-version
+    attributes:
+      label: "Mod Version"
+      description: "What version of the mod are you running?"
+      options:
+        - "1.0.0"
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Anything else?"
+      description: "Do you have any other information to include?"
+      placeholder: "..."
+    validations:
+      required: false
