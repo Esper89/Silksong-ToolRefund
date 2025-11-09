@@ -151,7 +151,7 @@ sealed partial class Mod : BaseUnityPlugin
     }
 }
 
-class ToolRestoreState
+sealed class ToolRestoreState
 {
     Dictionary<ToolItem, int> toolAmounts = new();
 
@@ -181,7 +181,7 @@ class ToolRestoreState
             var maxAmount = ToolItemManager.GetToolStorageAmount(tool);
             var data = pd.GetToolData(tool.name);
             var amount = data.AmountLeft;
-            var newAmount = Math.Clamp(restoreAmount, amount, maxAmount);
+            var newAmount = restoreAmount.Clamp(amount, maxAmount);
             if (newAmount != amount)
             {
                 data.AmountLeft = newAmount;
@@ -202,7 +202,7 @@ class ToolRestoreState
     }
 }
 
-class ToolResourcesTotal
+sealed class ToolResourcesTotal
 {
     int rosaries = 0;
     int shellShards = 0;
@@ -262,7 +262,7 @@ class ToolResourcesTotal
         {
             var rosaries = pd.geo + this.rosaries;
             var max = GlobalSettings.Gameplay.GetCurrencyCap(CurrencyType.Money);
-            pd.geo = Math.Clamp(rosaries, 0, max);
+            pd.geo = rosaries.Clamp(0, max);
         }
     }
 
@@ -277,14 +277,14 @@ class ToolResourcesTotal
         {
             var rosaries = pd.geo + this.rosaries;
             var max = GlobalSettings.Gameplay.GetCurrencyCap(CurrencyType.Money);
-            pd.geo = Math.Clamp(rosaries, 0, max);
+            pd.geo = rosaries.Clamp(0, max);
         }
 
         if (this.shellShards > 0)
         {
             var shards = pd.ShellShards + this.shellShards;
             var max = GlobalSettings.Gameplay.GetCurrencyCap(CurrencyType.Shard);
-            pd.ShellShards = Math.Clamp(shards, 0, max);
+            pd.ShellShards = shards.Clamp(0, max);
         }
 
         foreach (var (tool, refills) in this.liquidRefills)
@@ -292,7 +292,7 @@ class ToolResourcesTotal
             if (refills > 0)
             {
                 var data = tool.LiquidSavedData;
-                data.RefillsLeft = Math.Clamp(data.RefillsLeft + refills, 0, tool.RefillsMax);
+                data.RefillsLeft = (data.RefillsLeft + refills).Clamp(0, tool.RefillsMax);
                 tool.LiquidSavedData = data;
             }
         }
@@ -314,4 +314,10 @@ class ToolResourcesTotal
 
         return "{ " + string.Join(", ", values) + " }";
     }
+}
+
+static class Utils
+{
+    internal static int Clamp(this int value, int min, int max)
+        => Math.Max(Math.Min(value, max), min);
 }
